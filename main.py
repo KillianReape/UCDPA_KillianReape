@@ -227,9 +227,9 @@ X_train_gd, X_test_gd, y_train_gd, y_test_gd = train_test_split(predictors, targ
 n_cols = X_train_gd.shape[1]
 
 model = Sequential()
-model.add(Dense(1000, activation='relu', input_shape=(n_cols,)))
-model.add(Dense(1000, activation='relu'))
-model.add(Dense(1000, activation='relu'))
+model.add(Dense(500, activation='relu', input_shape=(n_cols,)))
+model.add(Dense(500, activation='relu'))
+model.add(Dense(500, activation='relu'))
 model.add(Dense(1))
 model.compile(optimizer='adam', loss='mean_squared_error')
 
@@ -238,6 +238,9 @@ model.fit(X_train_gd, y_train_gd, epochs=100, validation_split=0.20, batch_size=
 print(f"\nThe revised accuracy using a GD model is {r2_score(y_test_gd, model.predict(X_test_gd))*100:.2f} %!")
 
 model.save('model_file.h5')
+
+my_model = load_model('model_file.h5')
+my_model.summary()
 
 # Rescaling the data for use in analysis
 
@@ -251,3 +254,14 @@ df.to_csv('funds_with_predictions.csv')
 
 df['new_residuals'] = (df['new_predictions'] - df['actual_value']) / df['actual_value']
 sample = df.sort_values('new_residuals', ascending=False).head()
+print(sample['isin'].head())
+
+# Using investpy to reference fund ISINs in lookup - example
+
+etf = search_results = investpy.search_quotes(text='LU0119620416', products=['funds'])
+etf = etf[0]
+etf_info = etf.retrieve_information()
+print("\n")
+print(etf)
+print(etf_info)
+
