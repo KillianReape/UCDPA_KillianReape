@@ -101,7 +101,7 @@ for col in X:
 
 print(X.info())
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=123)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=123)
 
 # Fitting first regression model
 
@@ -131,16 +131,17 @@ print("The best funds based on this regression are shown below:")
 print(reg_predictions.head())
 
 # Visualization of coefficients
+plt.clf()
 
 coefficient_values = pd.DataFrame([features, pipeline.named_steps['reg'].coef_], index=['features', 'coefficients'])
 coefficient_values = coefficient_values.transpose().set_index('features')
 coefficient_values_nonzero = coefficient_values[coefficient_values['coefficients'] != 0]
 
 sns.barplot(x=coefficient_values_nonzero.index, y='coefficients', data=coefficient_values_nonzero)
-plt.xticks(rotation=45)
+plt.xticks(rotation=75)
 plt.tight_layout()
 
-plt.savefig('Principle Component Analysis.png')
+plt.savefig('Principal Component Analysis.png')
 
 
 # Using formula to create ranking system based on value
@@ -183,6 +184,7 @@ print("\nThe best funds based on the this ranking system are given below")
 print(ranks.head())
 
 # Showing heatmap of correlation between value factors
+plt.clf()
 
 sns.heatmap(df[targets].corr(), linewidths=.5, annot=True)
 plt.xticks(rotation=45)
@@ -264,4 +266,3 @@ etf_info = etf.retrieve_information()
 print("\n")
 print(etf)
 print(etf_info)
-
