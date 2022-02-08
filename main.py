@@ -192,8 +192,6 @@ plt.savefig('Heatmap of value metrics.png')
 
 # Boosting and improving the model to predict PE ratio only
 
-targets = targets[:-1]
-
 features.append(['dividend_yield_factor_percent_residual', 'price_book_ratio', 'price_sales_ratio',
                  'price_cash_flow_ratio'])
 
